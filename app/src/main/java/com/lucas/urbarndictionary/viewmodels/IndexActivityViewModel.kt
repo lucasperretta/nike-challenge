@@ -1,6 +1,5 @@
 package com.lucas.urbarndictionary.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -17,13 +16,15 @@ class IndexActivityViewModel : ViewModel() {
     val isLoading: LiveData<Boolean> = mutableIsLoading
 
     init {
+        performSearch()
+    }
+
+    private fun performSearch() {
         searchTerm.value = ""
         searchTerm.observeForever{
             mutableIsLoading.value = true
+            mutableWordList.value = null
             UrbanDictionaryIndexRepository.getData(it) { list ->
-                if (list != null && list.isNotEmpty()) {
-                    Log.e("A", list[0].word)
-                }
                 mutableWordList.value = list
                 mutableIsLoading.value = false
             }

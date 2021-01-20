@@ -2,5 +2,6 @@
     <string name="app_name">Urban Dictionary</string>
     <string name="description_search_icon">Search Icon</string>
     <string name="urban_dictionary_name">Urban Dictionary</string>
-    <string name="placeholder_type_any_word">Type Any Word...</string>
+    <string name="placeholder_type_any_word">Type Any Word…</string>
+    <string name="top_definition">Top Definition</string>
 </resources>

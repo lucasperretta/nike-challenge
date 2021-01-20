@@ -52,6 +52,9 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         viewModel.wordList.observe(this, Observer {
             recylerView.adapter!!.notifyDataSetChanged()
         })
+        viewModel.isLoading.observe(this, Observer { isLoading ->
+            progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
     }
 
     inner class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.WordViewHolder>() {
@@ -62,7 +65,7 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         }
 
         override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-            holder.setItem(viewModel.wordList.value!![position])
+            holder.setItem(viewModel.wordList.value!![position], position)
         }
 
         override fun getItemCount(): Int {
@@ -74,15 +77,18 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
             private var item: Word? = null
             private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
             private val detailTextView: TextView = itemView.findViewById(R.id.detailTextView)
+            private val numberTextView: TextView = itemView.findViewById(R.id.numberTextView)
+            private val thumbsUpTextView: TextView = itemView.findViewById(R.id.thumbsUpTextView)
+            private val thumbsDownTextView: TextView = itemView.findViewById(R.id.thumbsDownTextView)
 
-            fun setItem(item: Word) {
+            fun setItem(item: Word, position: Int) {
                 this.item = item
 
+                thumbsUpTextView.text = "${item.thumbsUp}"
+                thumbsDownTextView.text = "${item.thumbsDown}"
+                this.numberTextView.text = if (position + 1 == 1) getString(R.string.top_definition) else "${position + 1}"
                 this.titleTextView.text = item.word
-                this.detailTextView.text = HtmlCompat.fromHtml(
-                    "${item.definition}<br><br><i>${item.example}</i>",
-                    HtmlCompat.FROM_HTML_MODE_LEGACY
-                )
+                this.detailTextView.text = HtmlCompat.fromHtml(item.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
             }
 
         }
