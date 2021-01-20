@@ -4,7 +4,8 @@ import org.json.JSONObject
 
 class Word(json: JSONObject) {
 
-    var title: String = json.getString("title")
-    var detail: String = json.getString("detail")
+    var word: String = json.getString("word")
+    var definition: String = json.getString("definition")
+    var example: String = json.getString("example")
 
 }

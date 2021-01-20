@@ -5,6 +5,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.text.HtmlCompat
+import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,9 +32,14 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
 
         setupRecyclerView()
 
+        setupObservers()
+
     }
 
     private fun setupBehavior() {
+        editText.addTextChangedListener {
+            viewModel.searchTerm.value = it.toString()
+        }
 
     }
 
@@ -40,10 +48,17 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         recylerView.adapter = RecyclerViewAdapter()
     }
 
+    private fun setupObservers() {
+        viewModel.wordList.observe(this, Observer {
+            recylerView.adapter!!.notifyDataSetChanged()
+        })
+    }
+
     inner class RecyclerViewAdapter: RecyclerView.Adapter<RecyclerViewAdapter.WordViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WordViewHolder {
-            return WordViewHolder(layoutInflater.inflate(R.layout.recycler_view_item_word, parent, false))
+            return WordViewHolder(layoutInflater.inflate(R.layout.recycler_view_item_word, parent,
+                false))
         }
 
         override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
@@ -63,8 +78,11 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
             fun setItem(item: Word) {
                 this.item = item
 
-                this.titleTextView.text = item.title
-                this.detailTextView.text = item.detail
+                this.titleTextView.text = item.word
+                this.detailTextView.text = HtmlCompat.fromHtml(
+                    "${item.definition}<br><br><i>${item.example}</i>",
+                    HtmlCompat.FROM_HTML_MODE_LEGACY
+                )
             }
 
         }
