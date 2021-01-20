@@ -1,7 +1,6 @@
 package com.lucas.urbarndictionary.tasks
 
 import android.os.AsyncTask
-import android.util.Log
 import org.json.JSONObject
 import java.io.BufferedReader
 import java.io.InputStreamReader
@@ -12,8 +11,11 @@ class HTTPRequest(val url: String, val callback: (JSONObject?) -> Unit) : AsyncT
 
     companion object {
 
-        fun make(url: String, callback: (JSONObject?) -> Unit) {
-            HTTPRequest(url, callback).execute()
+        fun make(url: String, callback: (JSONObject?) -> Unit): HTTPRequest {
+            val request = HTTPRequest(url, callback)
+            request.execute()
+
+            return request
         }
 
     }
@@ -48,7 +50,6 @@ class HTTPRequest(val url: String, val callback: (JSONObject?) -> Unit) : AsyncT
     override fun onPostExecute(result: JSONObject?) {
         super.onPostExecute(result)
         callback(result)
-        Log.e("AAA", url)
     }
 
 }

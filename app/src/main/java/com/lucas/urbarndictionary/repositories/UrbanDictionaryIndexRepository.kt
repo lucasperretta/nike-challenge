@@ -1,14 +1,16 @@
 package com.lucas.urbarndictionary.repositories
 
-import android.util.Log
 import com.lucas.urbarndictionary.models.Word
 import com.lucas.urbarndictionary.tasks.HTTPRequest
 import org.json.JSONObject
 
 object UrbanDictionaryIndexRepository {
 
+    var httpRequest: HTTPRequest? = null
+
     fun getData(searchTerm: String, callback: (ArrayList<Word>?) -> Unit) {
-        HTTPRequest.make("https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=$searchTerm") {
+        httpRequest?.cancel(true)
+        httpRequest = HTTPRequest.make("https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=$searchTerm") {
             callback(if (it != null) parseJsonResponse(it) else null)
         }
     }
