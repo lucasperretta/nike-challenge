@@ -1,10 +1,12 @@
 package com.lucas.urbarndictionary.views
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -28,6 +30,8 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_index)
 
+        window.decorView.requestFocus()
+
         setupBehavior()
 
         setupRecyclerView()
@@ -39,6 +43,12 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
     private fun setupBehavior() {
         editText.addTextChangedListener {
             viewModel.searchTerm.value = it.toString()
+        }
+        thumbsUpFAB.setOnClickListener {
+            viewModel.thumbsFilter.value = IndexActivityViewModel.ThumbsFilter.UP
+        }
+        thumbsDownFAB.setOnClickListener {
+            viewModel.thumbsFilter.value = IndexActivityViewModel.ThumbsFilter.DOWN
         }
     }
 
@@ -53,6 +63,13 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         })
         viewModel.isLoading.observe(this, Observer { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
+        })
+        viewModel.thumbsFilter.observe(this, Observer { filter ->
+            val up = filter == IndexActivityViewModel.ThumbsFilter.UP
+            val colorHighlight = ContextCompat.getColor(this, R.color.highlight)
+            val colorWhite = ContextCompat.getColor(this, R.color.white)
+            thumbsUpFAB.imageTintList = ColorStateList.valueOf(if (up) colorHighlight else colorWhite)
+            thumbsDownFAB.imageTintList = ColorStateList.valueOf(if (!up) colorHighlight else colorWhite)
         })
     }
 

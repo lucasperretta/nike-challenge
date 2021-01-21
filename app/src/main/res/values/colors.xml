@@ -5,6 +5,7 @@
     <color name="gray">#333</color>
     <color name="white">#FFFFFFFF</color>
 
+    <color name="statusBar">#110e25</color>
     <color name="background">#E1E0E3</color>
     <color name="banner">#201C3A</color>
     <color name="accent">#134FE6</color>

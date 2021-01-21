@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">Urban Dictionary</string>
     <string name="description_search_icon">Search Icon</string>
+    <string name="description_logo">Urban Dictionary Logo</string>
+    <string name="description_filter_thumbs_up">Thumbs Up Filter</string>
+    <string name="description_filter_thumbs_down">Thumbs Down Filter</string>
     <string name="urban_dictionary_name">Urban Dictionary</string>
     <string name="placeholder_type_any_word">Type Any Word…</string>
     <string name="top_definition">Top Definition</string>

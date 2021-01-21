@@ -2,6 +2,9 @@ package com.lucas.urbarndictionary.repositories
 
 import com.lucas.urbarndictionary.models.Word
 import com.lucas.urbarndictionary.tasks.HTTPRequest
+import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel
+import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel.ThumbsFilter.DOWN
+import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel.ThumbsFilter.UP
 import org.json.JSONObject
 
 object UrbanDictionaryIndexRepository {
