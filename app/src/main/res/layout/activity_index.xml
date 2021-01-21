@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
-    android:background="@color/background">
+    android:background="@color/background"
+    tools:ignore="Overdraw">
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -75,7 +76,8 @@
                 app:fabSize="mini"
                 app:srcCompat="@drawable/icon_thumbs_down"
                 app:tint="@color/white"
-                android:contentDescription="@string/description_filter_thumbs_up" />
+                android:contentDescription="@string/description_filter_thumbs_down" />
+
         </LinearLayout>
 
         <androidx.cardview.widget.CardView
