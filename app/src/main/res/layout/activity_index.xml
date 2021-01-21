@@ -34,14 +34,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif"
-            android:text="@string/urban_dictionary_name"
-            android:textColor="@color/white"
-            android:textSize="30sp"
-            android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="170dp"
+            android:layout_height="56dp"
+            app:srcCompat="@drawable/logo_urban_dictionary" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
