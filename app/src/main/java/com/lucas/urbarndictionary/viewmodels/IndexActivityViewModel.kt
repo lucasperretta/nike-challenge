@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.lucas.urbarndictionary.extensions.notifyObserver
 import com.lucas.urbarndictionary.models.Word
-import com.lucas.urbarndictionary.repositories.UrbanDictionaryIndexRepository
+import com.lucas.urbarndictionary.repositories.IndexRepository
 
 class IndexActivityViewModel : ViewModel() {
 
@@ -25,7 +25,7 @@ class IndexActivityViewModel : ViewModel() {
         searchTerm.observeForever { search ->
             mutableIsLoading.value = true
             mutableWordList.value = null
-            UrbanDictionaryIndexRepository.getData(search) { list ->
+            IndexRepository.getData(search) { list ->
                 mutableWordList.value = list
                 mutableIsLoading.value = false
             }

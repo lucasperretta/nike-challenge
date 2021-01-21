@@ -4,7 +4,7 @@ import com.lucas.urbarndictionary.models.Word
 import com.lucas.urbarndictionary.tasks.HTTPRequest
 import org.json.JSONObject
 
-object UrbanDictionaryIndexRepository {
+object IndexRepository {
 
     private var httpRequest: HTTPRequest? = null
 
