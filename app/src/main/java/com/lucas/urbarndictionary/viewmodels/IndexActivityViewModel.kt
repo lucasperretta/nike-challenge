@@ -22,23 +22,19 @@ class IndexActivityViewModel : ViewModel() {
     val thumbsFilter: MutableLiveData<ThumbsFilter> = MutableLiveData(ThumbsFilter.UP)
 
     init {
-        searchTerm.observeForever {
-            performSearch(it)
+        searchTerm.observeForever { search ->
+            mutableIsLoading.value = true
+            mutableWordList.value = null
+            UrbanDictionaryIndexRepository.getData(search) { list ->
+                mutableWordList.value = list
+                mutableIsLoading.value = false
+            }
         }
         thumbsFilter.observeForever {
             mutableWordList.value?.sortByDescending {
                 if (thumbsFilter.value == ThumbsFilter.UP) it.thumbsUp else it.thumbsDown
             }
             mutableWordList.notifyObserver()
-        }
-    }
-
-    private fun performSearch(parameter: String) {
-        mutableIsLoading.value = true
-        mutableWordList.value = null
-        UrbanDictionaryIndexRepository.getData(parameter) { list ->
-            mutableWordList.value = list
-            mutableIsLoading.value = false
         }
     }
 
