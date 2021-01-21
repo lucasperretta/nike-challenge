@@ -1,7 +1,6 @@
 package com.lucas.urbarndictionary
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.test.platform.app.InstrumentationRegistry
 import com.lucas.urbarndictionary.repositories.IndexRepository
 import org.junit.Test
 import org.junit.runner.RunWith
