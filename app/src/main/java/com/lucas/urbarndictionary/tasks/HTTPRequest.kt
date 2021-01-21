@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
+
 package com.lucas.urbarndictionary.tasks
 
 import android.os.AsyncTask
@@ -7,7 +9,7 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 
-class HTTPRequest(val url: String, val callback: (JSONObject?) -> Unit) : AsyncTask<Void, Int, JSONObject?>() {
+class HTTPRequest(private val url: String, val callback: (JSONObject?) -> Unit) : AsyncTask<Void, Int, JSONObject?>() {
 
     companion object {
 

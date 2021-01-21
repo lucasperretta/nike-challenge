@@ -6,7 +6,7 @@ import org.json.JSONObject
 
 object UrbanDictionaryIndexRepository {
 
-    var httpRequest: HTTPRequest? = null
+    private var httpRequest: HTTPRequest? = null
 
     fun getData(searchTerm: String, callback: (ArrayList<Word>?) -> Unit) {
         httpRequest?.cancel(true)

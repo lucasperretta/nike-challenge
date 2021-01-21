@@ -2,6 +2,7 @@ package com.lucas.urbarndictionary.models
 
 import org.json.JSONObject
 
+@Suppress("MemberVisibilityCanBePrivate")
 class Word(json: JSONObject) {
 
     var word: String = json.getString("word")

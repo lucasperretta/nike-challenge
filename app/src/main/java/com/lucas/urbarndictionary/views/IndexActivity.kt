@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.text.HtmlCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +12,7 @@ import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.urbarndictionary.R
+import com.lucas.urbarndictionary.extensions.toHtml
 import com.lucas.urbarndictionary.models.Word
 import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel
 import kotlinx.android.synthetic.main.activity_index.*
@@ -40,17 +40,16 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         editText.addTextChangedListener {
             viewModel.searchTerm.value = it.toString()
         }
-
     }
 
     private fun setupRecyclerView() {
-        recylerView.layoutManager = LinearLayoutManager(this)
-        recylerView.adapter = RecyclerViewAdapter()
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = RecyclerViewAdapter()
     }
 
     private fun setupObservers() {
         viewModel.wordList.observe(this, Observer {
-            recylerView.adapter!!.notifyDataSetChanged()
+            recyclerView.adapter!!.notifyDataSetChanged()
         })
         viewModel.isLoading.observe(this, Observer { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
@@ -88,7 +87,7 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
                 thumbsDownTextView.text = "${item.thumbsDown}"
                 this.numberTextView.text = if (position + 1 == 1) getString(R.string.top_definition) else "${position + 1}"
                 this.titleTextView.text = item.word
-                this.detailTextView.text = HtmlCompat.fromHtml(item.description, HtmlCompat.FROM_HTML_MODE_LEGACY)
+                this.detailTextView.text = item.description.toHtml()
             }
 
         }
