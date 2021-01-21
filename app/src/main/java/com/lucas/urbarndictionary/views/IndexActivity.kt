@@ -96,15 +96,17 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
             private val numberTextView: TextView = itemView.findViewById(R.id.numberTextView)
             private val thumbsUpTextView: TextView = itemView.findViewById(R.id.thumbsUpTextView)
             private val thumbsDownTextView: TextView = itemView.findViewById(R.id.thumbsDownTextView)
+            private val authorTextView: TextView = itemView.findViewById(R.id.authorTextView)
 
             fun setItem(item: Word, position: Int) {
                 this.item = item
 
-                thumbsUpTextView.text = "${item.thumbsUp}"
-                thumbsDownTextView.text = "${item.thumbsDown}"
+                this.thumbsUpTextView.text = "${item.thumbsUp}"
+                this.thumbsDownTextView.text = "${item.thumbsDown}"
                 this.numberTextView.text = if (position + 1 == 1) getString(R.string.top_definition) else "${position + 1}"
                 this.titleTextView.text = item.word
                 this.detailTextView.text = item.description.toHtml()
+                this.authorTextView.text = item.authorDate.toHtml()
             }
 
         }

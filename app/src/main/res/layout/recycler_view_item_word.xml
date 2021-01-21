@@ -48,6 +48,15 @@
         android:textSize="16sp"
         tools:text="A deranged, poorly-planned attempt to seize power; particularly if an election does not turn out in your favor. Disgraced attorney Rudy Giuliani’s face became drenched in sweat and hair dye as he invented evidence of widespread voter fraud during President Trump’s clown coup." />
 
+    <TextView
+        android:id="@+id/authorTextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        tools:text="by pooftylee August 07, 2020"
+        android:textColor="@color/dark_gray"
+        android:textStyle="bold" />
+
     <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="32dp"
