@@ -1,5 +1,7 @@
 package com.lucas.urbarndictionary
 
+import com.lucas.urbarndictionary.extensions.parseDate
+import com.lucas.urbarndictionary.extensions.toStringFormat
 import org.junit.Test
 
 /**
@@ -9,8 +11,14 @@ import org.junit.Test
  */
 class ExampleUnitTest {
 
-    @Test
-    fun testSomething() {
-        assert(true)
+    @Test fun dateParsingAndFormatting() {
+        val stringDate = "2020-01-21 10:00:00"
+        val format = "yyyy-MM-dd hh:mm:ss"
+
+        val date = stringDate.parseDate(format)
+
+        assert(date != null)
+        assert(date!!.toStringFormat(format) == stringDate)
     }
+
 }
