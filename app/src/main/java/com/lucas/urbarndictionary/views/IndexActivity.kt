@@ -32,23 +32,27 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
 
         window.decorView.requestFocus()
 
-        setupBehavior()
-
         setupRecyclerView()
 
         setupObservers()
 
     }
 
-    private fun setupBehavior() {
+    override fun onPostCreate(savedInstanceState: Bundle?) {
+        super.onPostCreate(savedInstanceState)
+
+        setupListeners()
+    }
+
+    private fun setupListeners() {
         editText.addTextChangedListener {
-            viewModel.searchTerm.value = it.toString()
+            viewModel.performSearch(it.toString())
         }
         thumbsUpFAB.setOnClickListener {
-            viewModel.thumbsFilter.value = IndexActivityViewModel.ThumbsFilter.UP
+            viewModel.setThumbsFilter(IndexActivityViewModel.ThumbsFilter.UP)
         }
         thumbsDownFAB.setOnClickListener {
-            viewModel.thumbsFilter.value = IndexActivityViewModel.ThumbsFilter.DOWN
+            viewModel.setThumbsFilter(IndexActivityViewModel.ThumbsFilter.DOWN)
         }
     }
 
@@ -85,7 +89,7 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         }
 
         override fun getItemCount(): Int {
-            return if (viewModel.wordList.value != null) viewModel.wordList.value!!.size else 0
+            return viewModel.wordList.value?.size ?: 0
         }
 
         inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

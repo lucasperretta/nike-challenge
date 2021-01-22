@@ -2,27 +2,37 @@ package com.lucas.urbarndictionary.repositories
 
 import com.lucas.urbarndictionary.models.Word
 import com.lucas.urbarndictionary.tasks.HTTPRequest
+import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel
 import org.json.JSONObject
 
 object IndexRepository {
 
     private var httpRequest: HTTPRequest? = null
+    private var results: ArrayList<Word>? = null
 
-    fun getData(searchTerm: String, callback: (ArrayList<Word>?) -> Unit) {
+    fun getData(searchTerm: String, filter: IndexActivityViewModel.ThumbsFilter, callback: (ArrayList<Word>?) -> Unit) {
         httpRequest?.cancel(true)
         httpRequest = HTTPRequest.make("https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=$searchTerm") {
-            callback(if (it != null) parseJsonResponse(it) else null)
+            callback(if (it != null) parseJsonResponse(it, filter) else null)
         }
     }
 
-    private fun parseJsonResponse(data: JSONObject): ArrayList<Word> {
+    private fun parseJsonResponse(data: JSONObject, filter: IndexActivityViewModel.ThumbsFilter): ArrayList<Word>? {
         val list = data.getJSONArray("list")
-        val result = ArrayList<Word>()
+        results = ArrayList()
         for (index in 0 until list.length()) {
-            result.add(Word(list.getJSONObject(index)))
+            results!!.add(Word(list.getJSONObject(index)))
         }
 
-        return result
+        return sortResults(filter)
+    }
+
+    fun sortResults(filter: IndexActivityViewModel.ThumbsFilter): ArrayList<Word>? {
+        results?.sortByDescending {
+            if (filter == IndexActivityViewModel.ThumbsFilter.UP) it.thumbsUp else it.thumbsDown
+        }
+
+        return results
     }
 
 }

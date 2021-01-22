@@ -2,6 +2,7 @@ package com.lucas.urbarndictionary
 
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.lucas.urbarndictionary.repositories.IndexRepository
+import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.concurrent.CountDownLatch
@@ -17,7 +18,7 @@ class ExampleInstrumentedTest {
 
     @Test fun indexRepository_jsonRequestTest() {
         val latch = CountDownLatch(1)
-        IndexRepository.getData("test") { list ->
+        IndexRepository.getData("test", IndexActivityViewModel.ThumbsFilter.UP) { list ->
             assert(list != null)
             assert(list!!.isNotEmpty())
             latch.countDown()

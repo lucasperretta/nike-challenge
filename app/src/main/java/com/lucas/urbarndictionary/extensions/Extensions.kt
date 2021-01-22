@@ -17,7 +17,3 @@ fun String.parseDate(format: String): Date? {
 fun Date.toStringFormat(format: String): String {
     return SimpleDateFormat(format, Locale.getDefault()).format(this)
 }
-
-fun <T> MutableLiveData<T>.notifyObserver() {
-    this.value = this.value
-}
