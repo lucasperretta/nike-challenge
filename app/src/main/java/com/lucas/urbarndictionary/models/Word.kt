@@ -14,7 +14,7 @@ class Word(json: JSONObject) {
     var thumbsUp: Int = json.getInt("thumbs_up")
     var thumbsDown: Int = json.getInt("thumbs_down")
     var author: String = json.getString("author")
-    var date: Date = json.getString("written_on").parseDate("yyyy-MM-dd")!!
+    var date: Date? = json.getString("written_on").parseDate("yyyy-MM-dd")
     val description: String
         get() {
             var htmlString = "${definition}<br><br><i>${example}</i>"
@@ -26,7 +26,7 @@ class Word(json: JSONObject) {
         }
     val authorDate: String
         get() {
-            return "by <font color=#134FE6>$author</font> ${date.toStringFormat("MMMM dd, yyyy")}"
+            return "by <font color=#134FE6>$author</font> ${date?.toStringFormat("MMMM dd, yyyy") ?: "ERROR"}"
         }
 
 }

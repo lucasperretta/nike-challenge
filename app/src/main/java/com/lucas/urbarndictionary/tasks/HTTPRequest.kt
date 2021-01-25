@@ -42,7 +42,7 @@ class HTTPRequest(private val url: String, val callback: (JSONObject?) -> Unit) 
         val reader = BufferedReader(InputStreamReader(client.inputStream, "utf-8"))
         var responseLine: String?
         while (reader.readLine().also { responseLine = it } != null) {
-            builder.append(responseLine!!.trim { it <= ' ' })
+            responseLine?.let { response -> builder.append(response.trim { it <= ' ' }) }
         }
         reader.close()
 

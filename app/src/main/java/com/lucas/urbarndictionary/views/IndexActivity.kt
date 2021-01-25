@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.lucas.urbarndictionary.R
 import com.lucas.urbarndictionary.extensions.toHtml
 import com.lucas.urbarndictionary.models.Word
+import com.lucas.urbarndictionary.repositories.IndexRepository
 import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel
 import kotlinx.android.synthetic.main.activity_index.*
 
@@ -49,10 +50,10 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
             viewModel.performSearch(it.toString())
         }
         thumbsUpFAB.setOnClickListener {
-            viewModel.setThumbsFilter(IndexActivityViewModel.ThumbsFilter.UP)
+            viewModel.changeThumbsFilter(IndexRepository.ThumbsFilter.Up)
         }
         thumbsDownFAB.setOnClickListener {
-            viewModel.setThumbsFilter(IndexActivityViewModel.ThumbsFilter.DOWN)
+            viewModel.changeThumbsFilter(IndexRepository.ThumbsFilter.Down)
         }
     }
 
@@ -63,13 +64,13 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
 
     private fun setupObservers() {
         viewModel.wordList.observe(this, Observer {
-            recyclerView.adapter!!.notifyDataSetChanged()
+            recyclerView.adapter?.notifyDataSetChanged()
         })
         viewModel.isLoading.observe(this, Observer { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
         viewModel.thumbsFilter.observe(this, Observer { filter ->
-            val up = filter == IndexActivityViewModel.ThumbsFilter.UP
+            val up = filter == IndexRepository.ThumbsFilter.Up
             val colorHighlight = ContextCompat.getColor(this, R.color.highlight)
             val colorWhite = ContextCompat.getColor(this, R.color.white)
             thumbsUpFAB.imageTintList = ColorStateList.valueOf(if (up) colorHighlight else colorWhite)
@@ -85,7 +86,9 @@ class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
         }
 
         override fun onBindViewHolder(holder: WordViewHolder, position: Int) {
-            holder.setItem(viewModel.wordList.value!![position], position)
+            viewModel.wordList.value?.let {
+                holder.setItem(it[position], position)
+            }
         }
 
         override fun getItemCount(): Int {

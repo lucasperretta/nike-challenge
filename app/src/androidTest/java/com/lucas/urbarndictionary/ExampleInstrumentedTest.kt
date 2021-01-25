@@ -18,7 +18,7 @@ class ExampleInstrumentedTest {
 
     @Test fun indexRepository_jsonRequestTest() {
         val latch = CountDownLatch(1)
-        IndexRepository.getData("test", IndexActivityViewModel.ThumbsFilter.UP) { list ->
+        IndexRepository.getData("test", IndexRepository.ThumbsFilter.Up) { list ->
             assert(list != null)
             assert(list!!.isNotEmpty())
             latch.countDown()
