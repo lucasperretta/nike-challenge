@@ -4,14 +4,14 @@ import android.content.Context
 import com.chocolate.requests.Request
 import com.loopj.android.http.RequestHandle
 import com.lucas.urbarndictionary.R
-import com.lucas.urbarndictionary.kotlin.IndexApiCallResult
+import com.lucas.urbarndictionary.kotlin.IndexApiResult
 import com.lucas.urbarndictionary.models.Word
 
 object IndexRepository {
 
     private var lastRequest: RequestHandle? = null
 
-    fun getData(context:Context, searchTerm: String, filter: ThumbsFilter, callback: (IndexApiCallResult) -> Unit) {
+    fun getData(context:Context, searchTerm: String, filter: ThumbsFilter, callback: (IndexApiResult) -> Unit) {
         lastRequest?.cancel(true)
         lastRequest = Request.jsonObject(context, "Index", Word.IndexAPIData::class.java)
                 .to("https://mashape-community-urban-dictionary.p.rapidapi.com/define")

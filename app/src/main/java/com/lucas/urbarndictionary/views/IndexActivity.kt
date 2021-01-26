@@ -1,17 +1,16 @@
 package com.lucas.urbarndictionary.views
 
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.urbarndictionary.R
+import com.lucas.urbarndictionary.kotlin.getTint
 import com.lucas.urbarndictionary.kotlin.toHtml
 import com.lucas.urbarndictionary.models.Word
 import com.lucas.urbarndictionary.repositories.IndexRepository
@@ -20,10 +19,8 @@ import kotlinx.android.synthetic.main.activity_index.*
 
 class IndexActivity : AppCompatActivity() {
 
-    val viewModel: IndexActivityViewModel
-        get() {
-            return ViewModelProvider(this).get(IndexActivityViewModel::class.java)
-        }
+    val viewModel: IndexActivityViewModel get() = ViewModelProvider(this).get(IndexActivityViewModel::class.java)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,7 +31,6 @@ class IndexActivity : AppCompatActivity() {
         setupRecyclerView()
 
         setupObservers()
-
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
@@ -68,11 +64,8 @@ class IndexActivity : AppCompatActivity() {
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
         viewModel.thumbsFilter.observe(this, { filter ->
-            val up = filter == IndexRepository.ThumbsFilter.Up
-            val colorHighlight = ContextCompat.getColor(this, R.color.highlight)
-            val colorWhite = ContextCompat.getColor(this, R.color.white)
-            thumbsUpFAB.imageTintList = ColorStateList.valueOf(if (up) colorHighlight else colorWhite)
-            thumbsDownFAB.imageTintList = ColorStateList.valueOf(if (!up) colorHighlight else colorWhite)
+            thumbsUpFAB.imageTintList = getTint(if (filter == IndexRepository.ThumbsFilter.Up) R.color.highlight else R.color.white)
+            thumbsDownFAB.imageTintList = getTint(if (filter == IndexRepository.ThumbsFilter.Down) R.color.highlight else R.color.white)
         })
     }
 
@@ -96,12 +89,12 @@ class IndexActivity : AppCompatActivity() {
         inner class WordViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
             private var item: Word? = null
-            private val titleTextView: TextView = itemView.findViewById(R.id.titleTextView)
-            private val detailTextView: TextView = itemView.findViewById(R.id.detailTextView)
-            private val numberTextView: TextView = itemView.findViewById(R.id.numberTextView)
-            private val thumbsUpTextView: TextView = itemView.findViewById(R.id.thumbsUpTextView)
-            private val thumbsDownTextView: TextView = itemView.findViewById(R.id.thumbsDownTextView)
-            private val authorTextView: TextView = itemView.findViewById(R.id.authorTextView)
+            private val titleTextView: TextView = findViewById(R.id.titleTextView)
+            private val detailTextView: TextView = findViewById(R.id.detailTextView)
+            private val numberTextView: TextView = findViewById(R.id.numberTextView)
+            private val thumbsUpTextView: TextView = findViewById(R.id.thumbsUpTextView)
+            private val thumbsDownTextView: TextView = findViewById(R.id.thumbsDownTextView)
+            private val authorTextView: TextView = findViewById(R.id.authorTextView)
 
             fun setItem(item: Word, position: Int) {
                 this.item = item
