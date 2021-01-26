@@ -1,33 +1,32 @@
 package com.lucas.urbarndictionary.repositories
 
+import android.content.Context
+import com.chocolate.requests.Request
+import com.loopj.android.http.RequestHandle
+import com.lucas.urbarndictionary.R
+import com.lucas.urbarndictionary.kotlin.IndexApiCallResult
 import com.lucas.urbarndictionary.models.Word
-import com.lucas.urbarndictionary.tasks.HTTPRequest
-import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel
-import org.json.JSONObject
 
 object IndexRepository {
 
-    private var httpRequest: HTTPRequest? = null
-    private var results: ArrayList<Word>? = null
+    private var lastRequest: RequestHandle? = null
 
-    fun getData(searchTerm: String, filter: ThumbsFilter, callback: (ArrayList<Word>?) -> Unit) {
-        httpRequest?.cancel(true)
-        httpRequest = HTTPRequest.make("https://mashape-community-urban-dictionary.p.rapidapi.com/define?term=$searchTerm") {
-            callback(if (it != null) parseJsonResponse(it, filter) else null)
-        }
-    }
+    fun getData(context:Context, searchTerm: String, filter: ThumbsFilter, callback: (IndexApiCallResult) -> Unit) {
+        lastRequest?.cancel(true)
+        lastRequest = Request.jsonObject(context, "Index", Word.IndexAPIData::class.java)
+                .to("https://mashape-community-urban-dictionary.p.rapidapi.com/define")
+                .body("term", searchTerm)
+                .addHeader("X-RapidAPI-Key", context.resources.getString(R.string.PROJECT_API_KEY))
+                .addHeader("X-RapidAPI-Host", context.resources.getString(R.string.PROJECT_API_HOST))
+                .start { response ->
+                    if (response.failed()) {
+                        callback(Result.failure(response.error))
 
-    private fun parseJsonResponse(data: JSONObject, filter: ThumbsFilter): ArrayList<Word>? {
-        val list = data.getJSONArray("list")
-        results = ArrayList()
-        results?.let { results ->
-            for (index in 0 until list.length()) {
-                results.add(Word(list.getJSONObject(index)))
-            }
-            filter.method(results)
-        }
-
-        return results
+                        return@start
+                    }
+                    filter.method(response.value.list)
+                    callback(Result.success(response.value))
+                }
     }
 
     enum class ThumbsFilter(val method: (ArrayList<Word>) -> Unit) {

@@ -1,20 +1,25 @@
 package com.lucas.urbarndictionary.models
 
-import com.lucas.urbarndictionary.extensions.parseDate
-import com.lucas.urbarndictionary.extensions.toStringFormat
-import org.json.JSONObject
+import com.google.gson.annotations.SerializedName
+import com.lucas.urbarndictionary.kotlin.parseDate
+import com.lucas.urbarndictionary.kotlin.toStringFormat
 import java.util.*
 
 @Suppress("MemberVisibilityCanBePrivate")
-class Word(json: JSONObject) {
+class Word {
 
-    var word: String = json.getString("word")
-    var definition: String = json.getString("definition")
-    var example: String = json.getString("example")
-    var thumbsUp: Int = json.getInt("thumbs_up")
-    var thumbsDown: Int = json.getInt("thumbs_down")
-    var author: String = json.getString("author")
-    var date: Date? = json.getString("written_on").parseDate("yyyy-MM-dd")
+    lateinit var word: String
+    lateinit var definition: String
+    lateinit var example: String
+    @SerializedName("thumbs_up") var thumbsUp: Int = 0
+    @SerializedName("thumbs_down") var thumbsDown: Int = 0
+    lateinit var author: String
+    @SerializedName("written_on") lateinit var writtenOn: String
+
+    val date: Date?
+        get() {
+            return writtenOn.parseDate("yyyy-MM-dd")
+        }
     val description: String
         get() {
             var htmlString = "${definition}<br><br><i>${example}</i>"
@@ -28,5 +33,9 @@ class Word(json: JSONObject) {
         get() {
             return "by <font color=#134FE6>$author</font> ${date?.toStringFormat("MMMM dd, yyyy") ?: "ERROR"}"
         }
+
+    class IndexAPIData {
+        lateinit var list: ArrayList <Word>
+    }
 
 }

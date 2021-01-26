@@ -1,7 +1,7 @@
 package com.lucas.urbarndictionary
 
-import com.lucas.urbarndictionary.extensions.parseDate
-import com.lucas.urbarndictionary.extensions.toStringFormat
+import com.lucas.urbarndictionary.kotlin.parseDate
+import com.lucas.urbarndictionary.kotlin.toStringFormat
 import org.junit.Test
 
 /**

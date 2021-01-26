@@ -10,17 +10,16 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.lucas.urbarndictionary.R
-import com.lucas.urbarndictionary.extensions.toHtml
+import com.lucas.urbarndictionary.kotlin.toHtml
 import com.lucas.urbarndictionary.models.Word
 import com.lucas.urbarndictionary.repositories.IndexRepository
 import com.lucas.urbarndictionary.viewmodels.IndexActivityViewModel
 import kotlinx.android.synthetic.main.activity_index.*
 
-class IndexActivity : AppCompatActivity(), ViewModelStoreOwner {
+class IndexActivity : AppCompatActivity() {
 
     val viewModel: IndexActivityViewModel
         get() {
