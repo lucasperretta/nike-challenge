@@ -8,6 +8,7 @@ El diseño fue copiado y adaptado a pantallas mobiles de la página de Urban Dic
 Espero que les guste!
 
 
+
 **[EN]**
 Hi! This demo app was made in pure Kotlin using the MVVM and Live Data development architecture and, the lucasperretta/chocolate library.
 
