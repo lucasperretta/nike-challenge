@@ -8,7 +8,6 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -62,13 +61,13 @@ class IndexActivity : AppCompatActivity() {
     }
 
     private fun setupObservers() {
-        viewModel.wordList.observe(this, Observer {
+        viewModel.wordList.observe(this, {
             recyclerView.adapter?.notifyDataSetChanged()
         })
-        viewModel.isLoading.observe(this, Observer { isLoading ->
+        viewModel.isLoading.observe(this, { isLoading ->
             progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
         })
-        viewModel.thumbsFilter.observe(this, Observer { filter ->
+        viewModel.thumbsFilter.observe(this, { filter ->
             val up = filter == IndexRepository.ThumbsFilter.Up
             val colorHighlight = ContextCompat.getColor(this, R.color.highlight)
             val colorWhite = ContextCompat.getColor(this, R.color.white)
